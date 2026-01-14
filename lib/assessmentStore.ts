@@ -19,7 +19,7 @@ let embeddings: number[][] = [];
 let embedder: any = null;
 let initialized = false;
 
-function cosineSimilarity(a: number[], b: number[]) {
+function cosineSimilarity(a: number[], b: number[]): number {
   let dot = 0, na = 0, nb = 0;
   for (let i = 0; i < a.length; i++) {
     dot += a[i] * b[i];
@@ -73,7 +73,7 @@ export async function searchAssessments(query: string, topK = 15) {
     normalize: true,
   });
 
-  const qEmbedding = Array.from(qEmbeddingOutput.data);
+  const qEmbedding: number[] = Array.from(qEmbeddingOutput.data) as number[];
 
   const scored = embeddings.map((vec, idx) => ({
     score: cosineSimilarity(qEmbedding, vec),
