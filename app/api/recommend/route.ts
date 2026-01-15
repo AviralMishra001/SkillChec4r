@@ -1,6 +1,6 @@
 // app/api/recommend/route.ts
 import { NextResponse } from "next/server";
-import { searchAssessments } from "@/lib/assessmentStore";
+import { searchAssessments,getInitStatus } from "@/lib/assessmentStore";
 import OpenAI from "openai";
 
 /* -------------------- OpenRouter Client -------------------- */
@@ -70,6 +70,8 @@ export async function POST(req: Request) {
     if (!jobDescription) {
       return NextResponse.json({ error: "Missing input" }, { status: 400 });
     }
+    const wasInitialized = getInitStatus().initialized;
+
 
     /* ---- If input is URL, extract JD ---- */
     if (isURL(jobDescription)) {
@@ -122,7 +124,7 @@ ${candidates
         ? indexes.map((i) => candidates[i])
         : candidates.slice(0, 7);
 
-    return NextResponse.json({ recommendations: finalResults });
+    return NextResponse.json({ recommendations: finalResults, wasFirstLoad: !wasInitialized });
   } catch (err: any) {
     console.error("API ERROR:", err);
     return NextResponse.json(
