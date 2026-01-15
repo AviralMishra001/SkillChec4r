@@ -1,4 +1,3 @@
-
 import fs from "fs";
 import path from "path";
 import csv from "csv-parser";
@@ -40,6 +39,13 @@ async function loadCSV(): Promise<Assessment[]> {
       .on("end", () => resolve(results))
       .on("error", reject);
   });
+}
+
+export function getInitStatus() {
+  return { 
+    initialized,
+    assessmentCount: assessments.length 
+  };
 }
 
 export async function initAssessmentStore() {
