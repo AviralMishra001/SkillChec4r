@@ -1,4 +1,12 @@
 {
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start -p 7860",
+    "lint": "next lint"
+  }
+}
+{
   "name": "shl-frontend",
   "version": "0.1.0",
   "private": true,
