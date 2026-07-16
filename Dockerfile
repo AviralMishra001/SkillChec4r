@@ -1,5 +1,4 @@
 FROM node:20-slim
-
 WORKDIR /app
 
 # Copy package files
@@ -10,6 +9,10 @@ RUN npm ci
 
 # Copy application code
 COPY . .
+
+# Precompute embeddings once at build time - bakes data/embeddings.json into the image
+# so it never needs to be regenerated at runtime/cold-start
+RUN npx tsx scripts/precomputeEmbeddings.ts
 
 # Build the Next.js app (TypeScript still available)
 RUN npm run build
